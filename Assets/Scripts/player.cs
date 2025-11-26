@@ -1,29 +1,40 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // <- penting
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float speed = 10f;
+    public Rigidbody2D rigidbody;
+
+    private float boundary;
+    private float xMove;
 
     void Start()
     {
-        //Debug.Log("Player has entered the scene");
-        transform.position = new Vector3(0f, 0f, 0f);
+        // Hitung boundary berdasarkan kamera + ukuran sprite paddle
+        float halfWidth = Camera.main.orthographicSize * Camera.main.aspect;
+        float paddleHalfWidth = GetComponent<SpriteRenderer>().bounds.size.x / 2;
+
+        boundary = halfWidth - paddleHalfWidth;
     }
 
     void Update()
     {
-        float moveX = 0f;
-        float moveY = 0f;
+        // Input kiri-kanan
+        xMove = 0;
 
-        // Arrow keys / WASD dengan Input System baru
-        if (Keyboard.current.leftArrowKey.isPressed) moveX = -1f;
-        if (Keyboard.current.rightArrowKey.isPressed) moveX = 1f;
+        if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed)
+            xMove = -1;
 
-        if (Keyboard.current.upArrowKey.isPressed) moveY = 1f;
-        if (Keyboard.current.downArrowKey.isPressed) moveY = -1f;
+        if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
+            xMove = 1;
 
-        Vector3 movement = new Vector3(moveX, moveY, 0f);
-        transform.position += movement * moveSpeed * Time.deltaTime;
+        rigidbody.linearVelocity = new Vector2(xMove * speed, 0);
+
+        // Batasi paddle agar tidak keluar layar
+        if (transform.position.x < -boundary)
+            transform.position = new Vector2(-boundary, transform.position.y);
+        else if (transform.position.x > boundary)
+            transform.position = new Vector2(boundary, transform.position.y);
     }
 }
