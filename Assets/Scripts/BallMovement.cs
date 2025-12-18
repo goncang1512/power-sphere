@@ -9,25 +9,37 @@ public class BallMovement : MonoBehaviour
     public Transform padle;
     public Grid grid;
 
+    private SpriteRenderer spriteRenderer;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Ambil komponen renderer dari objek bulat bawaan Unity
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        // MENGUBAH WARNA TANPA MENGUBAH BENTUK (Grey)
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = Color.grey;
+        }
+
         startBallMove();
     }
 
     void startBallMove()
     {
-        float xDirection = 1;
-        float yDirection = 1;
-        Vector2 direction = new Vector2(xDirection, yDirection) * speed;
-        rigid.linearVelocity = direction;
+        Vector2 direction = new Vector2(1, 1).normalized;
+        rigid.linearVelocity = direction * speed;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(transform.position .y < -6f)
+        // Jaga kecepatan tetap kencang/liar (Konstan)
+        if (rigid.linearVelocity.magnitude != speed && rigid.linearVelocity.magnitude > 0)
+        {
+            rigid.linearVelocity = rigid.linearVelocity.normalized * speed;
+        }
+
+        if (transform.position.y < -6f)
         {
             RestartGame();
         }
@@ -38,7 +50,8 @@ public class BallMovement : MonoBehaviour
         transform.position = new Vector2(0f, -3.39f);
         padle.transform.position = new Vector2(0f, -4.5f);
         startBallMove();
-        if(score.playerScore >= 18)
+
+        if (score.playerScore >= 18)
         {
             grid.CreateGrid();
             score.playerScore = 0;
@@ -47,12 +60,15 @@ public class BallMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // Paksa kecepatan balik ke asal setelah nabrak agar tidak melambat
+        rigid.linearVelocity = rigid.linearVelocity.normalized * speed;
+
         if (collision.gameObject.tag == "Block")
         {
             Destroy(collision.gameObject);
-            score.playerScore++; 
+            score.playerScore++;
 
-            if(score.playerScore >= 18)
+            if (score.playerScore >= 18)
             {
                 grid.CreateGrid();
                 score.playerScore = 0;
