@@ -508,6 +508,7 @@ MonoBehaviour:
   score: {fileID: 1040268762}
   padle: {fileID: 2008773483}
   grid: {fileID: 1954802286}
+  itemPrefab: {fileID: 8923533390820763176, guid: 7ada5f0e00615af469af624a121d5d5c, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1153,7 +1154,7 @@ Transform:
   m_GameObject: {fileID: 1954802285}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.47, y: 0.09, z: 0}
+  m_LocalPosition: {x: -7.63, y: 1.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1174,7 +1175,7 @@ GameObject:
   - component: {fileID: 2008773479}
   m_Layer: 0
   m_Name: Padle
-  m_TagString: Untagged
+  m_TagString: Padel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1194,6 +1195,10 @@ MonoBehaviour:
   speed: 10
   rigid: {fileID: 2008773480}
   boundary: 8.7
+  speedMultiplier: 1.8
+  sizeMultiplierBig: 1.5
+  sizeMultiplierSmall: 0.6
+  boostDuration: 5
 --- !u!50 &2008773480
 Rigidbody2D:
   serializedVersion: 5

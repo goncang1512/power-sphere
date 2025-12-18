@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class BallMovement : MonoBehaviour
@@ -8,6 +8,7 @@ public class BallMovement : MonoBehaviour
     public Score score;
     public Transform padle;
     public Grid grid;
+    public GameObject itemPrefab;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -49,10 +50,20 @@ public class BallMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Block")
         {
-            Destroy(collision.gameObject);
-            score.playerScore++; 
+            Vector2 spawnPos = collision.transform.position;
 
-            if(score.playerScore >= 18)
+            Destroy(collision.gameObject);
+            score.playerScore++;
+
+            int randomValue = Random.Range(1, 11); // 1 - 10
+
+            // jika genap → spawn item
+            if (randomValue % 2 == 0)
+            {
+                Instantiate(itemPrefab, spawnPos, Quaternion.identity);
+            }
+
+            if (score.playerScore >= 18)
             {
                 grid.CreateGrid();
                 score.playerScore = 0;
