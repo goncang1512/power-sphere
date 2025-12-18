@@ -1,0 +1,26 @@
+# Unity folders
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+UserSettings/
+
+# Visual Studio / VS Code
+.vs/
+*.csproj
+*.sln
+*.user
+*.pidb
+*.mdb
+*.opendb
+*.VC.db
+
+# Rider
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
