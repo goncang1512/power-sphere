@@ -26,6 +26,13 @@ public class Grid : MonoBehaviour
             {
                 GameObject obj = Instantiate(block, new Vector2(x * spacing, y * 1f), Quaternion.identity, transform);
                 obj.transform.localPosition = new Vector2(x * spacing, y * 1f);
+
+                SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
+                if (sr != null)
+                {
+                    sr.color = Color.black; // Mengatur warna awal menjadi hitam
+                }
+
                 blocks.Add(obj);
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class BallMovement : MonoBehaviour
@@ -10,10 +11,15 @@ public class BallMovement : MonoBehaviour
     public Grid grid;
     public GameObject itemPrefab;
 
+    private SpriteRenderer ballRenderer;
+    private bool isWhite = true;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        ballRenderer = GetComponent<SpriteRenderer>();
+        ApplyBlackWhiteColor();
         startBallMove();
     }
 
@@ -36,6 +42,8 @@ public class BallMovement : MonoBehaviour
 
     void RestartGame()
     {
+        isWhite = true;
+        ApplyBlackWhiteColor();
         transform.position = new Vector2(0f, -3.39f);
         padle.transform.position = new Vector2(0f, -4.5f);
         startBallMove();
@@ -48,8 +56,10 @@ public class BallMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
         if (collision.gameObject.tag == "Block")
         {
+            ToggleColor();
             Vector2 spawnPos = collision.transform.position;
 
             Destroy(collision.gameObject);
@@ -68,6 +78,21 @@ public class BallMovement : MonoBehaviour
                 grid.CreateGrid();
                 score.playerScore = 0;
             }
+        }
+    }
+
+    // Fungsi bantu untuk mengubah warna
+    void ToggleColor()
+    {
+        isWhite = !isWhite;
+        ApplyBlackWhiteColor();
+    }
+
+    void ApplyBlackWhiteColor()
+    {
+        if (ballRenderer != null)
+        {
+            ballRenderer.color = isWhite ? Color.white : Color.black;
         }
     }
 }
